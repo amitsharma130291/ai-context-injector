@@ -2,8 +2,13 @@
   "manifest_version": 3,
   "name": "AI Context Injector",
   "version": "2.0.0",
-  "description": "Save context snippets with variables and inject into any AI chat. Token counter, multi-inject, folders, stats. No account — all local.",
-  "permissions": ["storage", "activeTab", "scripting", "contextMenus"],
+  "description": "Save context snippets with variables and inject into ChatGPT, Claude & Gemini. Token counter, folders, stats. No account.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "contextMenus"
+  ],
   "host_permissions": [
     "https://chatgpt.com/*",
     "https://chat.openai.com/*",
@@ -54,7 +59,9 @@
         "https://www.perplexity.ai/*",
         "https://copilot.microsoft.com/*"
       ],
-      "js": ["content.js"],
+      "js": [
+        "content.js"
+      ],
       "run_at": "document_idle"
     }
   ],
