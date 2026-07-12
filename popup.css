@@ -19,7 +19,22 @@ body{width:400px;min-height:460px;max-height:620px;background:var(--bg);color:va
 .app-name{font-weight:700;font-size:13px;letter-spacing:-.2px}
 .version-badge{background:var(--accent-dim);border:1px solid var(--accent);border-radius:4px;
   color:var(--accent);font-size:9px;font-weight:700;padding:1px 5px;letter-spacing:.5px}
-.header-right{display:flex;gap:4px}
+.header-right{display:flex;gap:4px;align-items:center}
+
+.btn-new-snippet{
+  display:flex;align-items:center;gap:5px;
+  background:var(--accent);border:none;border-radius:7px;
+  color:#fff;cursor:pointer;font-size:12px;font-weight:700;
+  padding:6px 12px;transition:background .15s, box-shadow .15s;
+  box-shadow:0 0 0 0 var(--accent);
+  animation:glow-pulse 2.5s ease-in-out infinite;
+}
+.btn-new-snippet:hover{background:var(--accent-h);animation:none;box-shadow:0 0 10px var(--accent)}
+
+@keyframes glow-pulse{
+  0%,100%{box-shadow:0 0 0px 0px #7c6af733}
+  50%{box-shadow:0 0 8px 3px #7c6af766}
+}
 
 /* BUTTONS */
 .btn-icon{background:none;border:1px solid var(--border);border-radius:6px;color:var(--text2);
