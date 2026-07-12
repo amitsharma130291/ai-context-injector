@@ -1,13 +1,9 @@
 {
   "manifest_version": 3,
   "name": "AI Context Injector",
-  "version": "1.0.0",
-  "description": "Save your project context, coding rules, and task notes as snippets. Inject into any AI chat (ChatGPT, Claude, Gemini, Grok) with one click. No account needed — all local.",
-  "permissions": [
-    "storage",
-    "activeTab",
-    "scripting"
-  ],
+  "version": "2.0.0",
+  "description": "Save context snippets with variables and inject into any AI chat. Token counter, multi-inject, folders, stats. No account — all local.",
+  "permissions": ["storage", "activeTab", "scripting", "contextMenus"],
   "host_permissions": [
     "https://chatgpt.com/*",
     "https://chat.openai.com/*",
@@ -34,6 +30,15 @@
     "32": "icons/icon32.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Alt+Shift+I",
+        "mac": "Alt+Shift+I"
+      },
+      "description": "Open AI Context Injector"
+    }
   },
   "content_scripts": [
     {

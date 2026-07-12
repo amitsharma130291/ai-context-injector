@@ -1,91 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
   <title>AI Context Injector</title>
-  <link rel="stylesheet" href="popup.css" />
+  <link rel="stylesheet" href="popup.css"/>
 </head>
 <body>
-  <div id="app">
-    <!-- Header -->
-    <header class="header">
-      <div class="header-left">
-        <span class="logo">⚡</span>
-        <span class="app-name">AI Context Injector</span>
-      </div>
-      <button class="btn-icon" id="btnAddSnippet" title="New snippet">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+<div id="app">
+
+  <!-- ── HEADER ── -->
+  <header class="header">
+    <div class="header-left">
+      <span class="logo">⚡</span>
+      <span class="app-name">AI Context Injector</span>
+      <span class="version-badge">v2</span>
+    </div>
+    <div class="header-right">
+      <button class="btn-icon" id="btnStats" title="Usage stats">📈</button>
+      <button class="btn-icon" id="btnImport" title="Import snippets">📥</button>
+      <button class="btn-icon" id="btnExport" title="Export snippets">📤</button>
+      <button class="btn-icon" id="btnAddSnippet" title="New snippet (Ctrl+N)">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
           <path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
         </svg>
       </button>
-    </header>
+    </div>
+  </header>
 
-    <!-- Search -->
-    <div class="search-bar">
-      <svg class="search-icon" width="14" height="14" viewBox="0 0 16 16" fill="none">
+  <!-- ── PLATFORM BAR ── -->
+  <div class="platform-bar" id="platformBar">
+    <span id="platformLabel">💡 Open an AI chat tab to enable inject</span>
+  </div>
+
+  <!-- ── QUICK TASK BAR ── -->
+  <div class="quick-task-bar" id="quickTaskBar" style="display:none">
+    <span class="qt-label">⚡ Today's task:</span>
+    <input type="text" id="quickTaskInput" placeholder="What are you working on right now?"/>
+    <button class="btn-qt-save" id="btnQtSave">Update</button>
+  </div>
+
+  <!-- ── TOOLBAR ── -->
+  <div class="toolbar">
+    <div class="search-wrap">
+      <svg class="search-icon" width="12" height="12" viewBox="0 0 16 16" fill="none">
         <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.5"/>
         <path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
       </svg>
-      <input type="text" id="searchInput" placeholder="Search snippets..." autocomplete="off" />
+      <input type="text" id="searchInput" placeholder="Search snippets…" autocomplete="off"/>
     </div>
-
-    <!-- Platform indicator -->
-    <div class="platform-bar" id="platformBar">
-      <span id="platformLabel">No AI tab detected</span>
-    </div>
-
-    <!-- Snippet list -->
-    <div class="snippet-list" id="snippetList">
-      <!-- Populated by JS -->
-    </div>
-
-    <!-- Empty state -->
-    <div class="empty-state" id="emptyState" style="display:none">
-      <div class="empty-icon">📋</div>
-      <div class="empty-title">No snippets yet</div>
-      <div class="empty-desc">Create your first snippet to start injecting context into any AI chat.</div>
-      <button class="btn-primary" id="btnCreateFirst">Create snippet</button>
-    </div>
-
-    <!-- Editor panel -->
-    <div class="editor-panel" id="editorPanel" style="display:none">
-      <div class="editor-header">
-        <input type="text" id="snippetTitle" placeholder="Snippet name..." class="editor-title-input" />
-        <div class="editor-actions">
-          <button class="btn-icon danger" id="btnDeleteSnippet" title="Delete" style="display:none">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-              <path d="M2 4h12M5 4V2h6v2M6 7v5M10 7v5M3 4l1 10h8l1-10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-          <button class="btn-icon" id="btnCancelEdit" title="Cancel">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-              <path d="M12 4L4 12M4 4l8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </button>
-          <button class="btn-primary small" id="btnSaveSnippet">Save</button>
-        </div>
-      </div>
-      <div class="tag-row">
-        <input type="text" id="snippetTags" placeholder="Tags (comma separated, e.g. project, nextjs)" class="tag-input" />
-      </div>
-      <textarea id="snippetContent" placeholder="Paste your context here...
-
-Examples:
-• Project: My SaaS app in Next.js 14 with Prisma + PostgreSQL
-• Stack: React, TypeScript, Tailwind CSS, tRPC
-• Coding rules: Use functional components, no class components
-• Current task: Refactor auth flow to use server components"></textarea>
-      <div class="char-count"><span id="charCount">0</span> chars</div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="footer">
-      <span class="footer-count"><span id="totalCount">0</span> snippets</span>
-      <span class="footer-hint">Free · All local · No account</span>
-    </footer>
+    <select id="folderFilter" class="folder-select">
+      <option value="__all__">All folders</option>
+    </select>
   </div>
 
-  <script src="popup.js"></script>
+  <!-- ── MULTI-INJECT BAR (shown when selection active) ── -->
+  <div class="multi-bar" id="multiBar" style="display:none">
+    <span id="multiCount">0 selected</span>
+    <button class="btn-multi-inject" id="btnMultiInject">Inject all →</button>
+    <button class="btn-multi-clear" id="btnMultiClear">✕</button>
+  </div>
+
+  <!-- ── SNIPPET LIST ── -->
+  <div class="snippet-list" id="snippetList"></div>
+
+  <!-- ── EMPTY STATE ── -->
+  <div class="empty-state" id="emptyState" style="display:none">
+    <div class="empty-icon">📋</div>
+    <div class="empty-title">No snippets yet</div>
+    <div class="empty-desc">Create your first snippet to start injecting context into any AI chat.</div>
+    <button class="btn-primary" id="btnCreateFirst">Create snippet</button>
+  </div>
+
+  <!-- ── EDITOR PANEL ── -->
+  <div class="editor-panel" id="editorPanel" style="display:none">
+    <div class="editor-header">
+      <input type="text" id="snippetTitle" placeholder="Snippet name…" class="editor-title-input"/>
+      <div class="editor-actions">
+        <button class="btn-icon danger" id="btnDeleteSnippet" title="Delete" style="display:none">🗑</button>
+        <button class="btn-icon" id="btnDuplicateSnippet" title="Duplicate" style="display:none">📋</button>
+        <button class="btn-icon" id="btnCancelEdit" title="Cancel (Esc)">✕</button>
+        <button class="btn-primary small" id="btnSaveSnippet">Save</button>
+      </div>
+    </div>
+    <div class="editor-meta">
+      <select id="snippetFolder" class="meta-select">
+        <option value="">📁 No folder</option>
+      </select>
+      <input type="text" id="snippetTags" placeholder="Tags: react, nextjs…" class="meta-input"/>
+    </div>
+    <div class="var-hint">
+      Variables: <code>{{project}}</code> <code>{{task}}</code> <code>{{date}}</code> <code>{{name}}</code> — or any <code>{{custom}}</code>
+    </div>
+    <textarea id="snippetContent" placeholder="Your context here…
+
+Use {{variables}} for dynamic values:
+Project: {{project}}
+Stack: React, TypeScript, Tailwind
+Task: {{task}}
+Date: {{date}}"></textarea>
+    <div class="editor-footer">
+      <span class="char-count"><span id="charCount">0</span> chars</span>
+      <span class="token-count">~<span id="tokenCount">0</span> tokens</span>
+      <span class="var-count" id="varCount" style="display:none"></span>
+    </div>
+  </div>
+
+  <!-- ── VARIABLE FILL MODAL ── -->
+  <div class="modal-overlay" id="varModal" style="display:none">
+    <div class="modal">
+      <div class="modal-header">
+        <span>Fill in variables</span>
+        <button class="btn-icon" id="btnVarClose">✕</button>
+      </div>
+      <div class="modal-body" id="varFields"></div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="btnVarSkip">Skip → Inject as-is</button>
+        <button class="btn-primary" id="btnVarInject">Inject ✓</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STATS PANEL ── -->
+  <div class="stats-panel" id="statsPanel" style="display:none">
+    <div class="stats-header">
+      <span>📈 Usage Stats</span>
+      <button class="btn-icon" id="btnStatsClose">✕</button>
+    </div>
+    <div class="stats-body" id="statsBody"></div>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer class="footer">
+    <span class="footer-count"><span id="totalCount">0</span> snippets</span>
+    <span class="footer-shortcut">Alt+Shift+I to open</span>
+    <span class="footer-hint">All local · No account</span>
+  </footer>
+
+  <!-- hidden file input for import -->
+  <input type="file" id="importFile" accept=".json" style="display:none"/>
+</div>
+<script src="popup.js"></script>
 </body>
 </html>
