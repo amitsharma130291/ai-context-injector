@@ -537,6 +537,19 @@ document.getElementById('btnDuplicateSnippet').addEventListener('click', ()=>{
 });
 
 document.getElementById('btnMultiInject').addEventListener('click', injectMultiple);
+
+document.getElementById('btnMultiDelete').addEventListener('click', async () => {
+  const count = selectedIds.size;
+  if (count === 0) return;
+  const confirm = window.confirm(`Delete ${count} snippet${count !== 1 ? 's' : ''}? This cannot be undone.`);
+  if (!confirm) return;
+  snippets = snippets.filter(s => !selectedIds.has(s.id));
+  selectedIds.clear();
+  await save();
+  renderList();
+  showToast(`${count} snippet${count !== 1 ? 's' : ''} deleted`);
+});
+
 document.getElementById('btnMultiClear').addEventListener('click', ()=>{ selectedIds.clear(); renderList(); });
 
 document.getElementById('btnStats').addEventListener('click', ()=>{
