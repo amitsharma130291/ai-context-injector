@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Welcome to AI Context Injector</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0f0f13; --bg2: #17171d; --border: #2a2a35;
+      --accent: #7c6af7; --text: #e8e8f0; --text2: #9090a8;
+    }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    }
+    .container { max-width: 620px; padding: 48px 32px; text-align: center; }
+    .logo { font-size: 56px; margin-bottom: 20px; }
+    h1 { font-size: 28px; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.5px; }
+    .tagline { color: var(--text2); font-size: 16px; margin-bottom: 40px; line-height: 1.6; }
+    .steps { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 40px; }
+    .step { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 20px 16px; }
+    .step-num { color: var(--accent); font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+    .step-title { font-weight: 600; font-size: 13px; margin-bottom: 6px; }
+    .step-desc { color: var(--text2); font-size: 12px; line-height: 1.5; }
+    .platforms { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 36px; }
+    .platform-badge {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 20px;
+      padding: 6px 16px; font-size: 13px; color: var(--text2);
+    }
+    .cta {
+      background: var(--accent); border: none; border-radius: 8px; color: #fff;
+      cursor: pointer; font-size: 15px; font-weight: 700; padding: 14px 32px;
+    }
+    .footer-note { margin-top: 20px; font-size: 12px; color: var(--text2); }
+    .highlight { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">⚡</div>
+    <h1>You're all set.</h1>
+    <p class="tagline">Stop re-explaining your codebase to AI every session.<br>
+    Save your context once. Inject it anywhere with one click.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-title">Click the extension</div>
+        <div class="step-desc">Pin it to your toolbar. Click ⚡ to open the snippet manager.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-title">Save your context</div>
+        <div class="step-desc">Add your project stack, coding rules, and current task as a snippet.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-title">Inject anywhere</div>
+        <div class="step-desc">Open any AI chat → click Inject. Done in one click, every time.</div>
+      </div>
+    </div>
+
+    <p style="margin-bottom:14px; font-size:13px; color:var(--text2);">Works on</p>
+    <div class="platforms">
+      <span class="platform-badge">🤖 ChatGPT</span>
+      <span class="platform-badge">🟣 Claude</span>
+      <span class="platform-badge">💎 Gemini</span>
+      <span class="platform-badge">𝕏 Grok</span>
+      <span class="platform-badge">🔍 Perplexity</span>
+      <span class="platform-badge">🌊 Mistral</span>
+      <span class="platform-badge">🪟 Copilot</span>
+    </div>
+
+    <p class="footer-note">
+      <span class="highlight">100% local</span> — no account, no server, no data leaves your browser.<br>
+      All snippets are stored in Chrome's local storage.
+    </p>
+  </div>
+</body>
+</html>

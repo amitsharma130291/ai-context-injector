@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Context Injector</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <span class="logo">⚡</span>
+        <span class="app-name">AI Context Injector</span>
+      </div>
+      <button class="btn-icon" id="btnAddSnippet" title="New snippet">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Search -->
+    <div class="search-bar">
+      <svg class="search-icon" width="14" height="14" viewBox="0 0 16 16" fill="none">
+        <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <input type="text" id="searchInput" placeholder="Search snippets..." autocomplete="off" />
+    </div>
+
+    <!-- Platform indicator -->
+    <div class="platform-bar" id="platformBar">
+      <span id="platformLabel">No AI tab detected</span>
+    </div>
+
+    <!-- Snippet list -->
+    <div class="snippet-list" id="snippetList">
+      <!-- Populated by JS -->
+    </div>
+
+    <!-- Empty state -->
+    <div class="empty-state" id="emptyState" style="display:none">
+      <div class="empty-icon">📋</div>
+      <div class="empty-title">No snippets yet</div>
+      <div class="empty-desc">Create your first snippet to start injecting context into any AI chat.</div>
+      <button class="btn-primary" id="btnCreateFirst">Create snippet</button>
+    </div>
+
+    <!-- Editor panel -->
+    <div class="editor-panel" id="editorPanel" style="display:none">
+      <div class="editor-header">
+        <input type="text" id="snippetTitle" placeholder="Snippet name..." class="editor-title-input" />
+        <div class="editor-actions">
+          <button class="btn-icon danger" id="btnDeleteSnippet" title="Delete" style="display:none">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <path d="M2 4h12M5 4V2h6v2M6 7v5M10 7v5M3 4l1 10h8l1-10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button class="btn-icon" id="btnCancelEdit" title="Cancel">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <path d="M12 4L4 12M4 4l8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <button class="btn-primary small" id="btnSaveSnippet">Save</button>
+        </div>
+      </div>
+      <div class="tag-row">
+        <input type="text" id="snippetTags" placeholder="Tags (comma separated, e.g. project, nextjs)" class="tag-input" />
+      </div>
+      <textarea id="snippetContent" placeholder="Paste your context here...
+
+Examples:
+• Project: My SaaS app in Next.js 14 with Prisma + PostgreSQL
+• Stack: React, TypeScript, Tailwind CSS, tRPC
+• Coding rules: Use functional components, no class components
+• Current task: Refactor auth flow to use server components"></textarea>
+      <div class="char-count"><span id="charCount">0</span> chars</div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <span class="footer-count"><span id="totalCount">0</span> snippets</span>
+      <span class="footer-hint">Free · All local · No account</span>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
